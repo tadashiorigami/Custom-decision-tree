@@ -14,4 +14,4 @@ The ProfitsDecisionTreeClassifier() uses profits as the criterion for every node
 
 The AdaptiveDecisionTreeClassifier() uses entropy for the initial nodes and profits on the other nodes, based on the information gain and profit gain.
 
-There's also a third model called "AdaptiveRandomForestClassifier()" still in deveopment, but the initial workings already functioning.
+There's also a third model called "AdaptiveRandomForestClassifier()" still in deveopment, but a very crude first example is also available.

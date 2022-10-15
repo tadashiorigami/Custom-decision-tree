@@ -19,7 +19,7 @@ There's also a third model called "AdaptiveRandomForestClassifier()" still in de
 
 The jupyter notebook shows the results of a few tests on a kaggle dataset.
 
-# Training the ProfitDecisionTreeClassifier() model
+## Training the ProfitDecisionTreeClassifier() model
 
 To train the model, pass the profit and loss rate (0~1) of each transaction and use model.fit passing the dataframes X, y and the value of each transaction to calculate the profit and losses.
 
@@ -34,7 +34,7 @@ You can also pass the parameters:
 
 Lastly, you can also print the tree with model.print_tree()
 
-# Training the AdaptiveDecisionTreeClassifier() model
+## Training the AdaptiveDecisionTreeClassifier() model
 
 The adaptive decision tree classifier works the same way as the profits decision tree, but you can also pass other parameters:
 

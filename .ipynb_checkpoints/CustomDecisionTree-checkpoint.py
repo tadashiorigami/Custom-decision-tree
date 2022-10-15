@@ -344,7 +344,7 @@ class ProfitDecisionTreeClassifier():
 
 class AdaptiveDecisionTreeClassifier():
     
-    def __init__(self,profit_rate, loss_rate, min_samples_split=10, max_depth=6, min_samples_profit=20, min_information_gain = 0, information_gain_cut=0.5):
+    def __init__(self,profit_rate, loss_rate, min_samples_split=10, max_depth=6, min_samples_profit=20, min_information_gain = 0, information_gain_cut=0.3):
         ''' constructor '''
         
         # initialize the root of the tree 

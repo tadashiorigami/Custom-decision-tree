@@ -35,7 +35,7 @@ def get_profit_percentage(transaction_values, true_y, predicted_y, profit_rate, 
 #### Custom Decision tree
 # Node information class
 class Node():
-    def __init__(self, feature_index=None, threshold=None, left=None, right=None,info_gain=None, value=None):
+    def __init__(self, feature_index=None, threshold=None, left=None, right=None,info_gain=None, value=None, gain_type = None):
         '''constructor'''
         
         #for decision node
@@ -44,6 +44,7 @@ class Node():
         self.left = left
         self.right = right
         self.info_gain = info_gain
+        self.gain_type = gain_type
         
         #for leaf node
         self.value = value
@@ -383,7 +384,8 @@ class AdaptiveDecisionTreeClassifier():
                 right_subtree = self.build_tree(X_, y_, right_indices, amounts_, curr_depth+1)
                 # return decision node
                 return Node(best_split["feature_index"], best_split["threshold"], 
-                            left_subtree, right_subtree, best_split["info_gain"])
+                            left_subtree, right_subtree, best_split["info_gain"],
+                            gain_type = best_split["gain_type"])
         
         # compute leaf node
         leaf_value = self.calculate_leaf_value(amounts_, y_, self.profit_rate, self.loss_rate)
@@ -400,9 +402,10 @@ class AdaptiveDecisionTreeClassifier():
         
         # Set if the model will calculate profit instead of information gain
         calculate_profit = 0
-        
+        gain_type = "Information"
         if (num_samples < self.min_samples_profit) or (curr_depth >= (self.max_depth * self.information_gain_cut)):
             calculate_profit = 1
+            gain_type = "Profit"
         
         # loop over all the features
         for feature in features:
@@ -431,6 +434,7 @@ class AdaptiveDecisionTreeClassifier():
             best_split["dataset_left"] = dataset_left_index
             best_split["dataset_right"] = dataset_right_index
             best_split["info_gain"] = best_percentage
+            best_split["gain_type"] = gain_type
         else:
             best_split["info_gain"] = 0
 
@@ -493,7 +497,7 @@ class AdaptiveDecisionTreeClassifier():
             print(tree.value)
 
         else:
-            print(f"{tree.feature_index} < {tree.threshold}  --- Profit gain = {tree.info_gain}")
+            print(f"{tree.feature_index} < {tree.threshold}  --- {tree.gain_type} gain = {tree.info_gain}")
             print(f"{indent}├───left:", end="")
             self.print_tree(tree.left, depth+1,line_l)
             print(f"{indent}└───right:", end="")

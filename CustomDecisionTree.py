@@ -17,6 +17,9 @@ import pandas as pd
 import numpy as np
 from numpy import searchsorted
 
+import math
+import random
+
 # Function to calculate the profits of a transaction
 def profit(transaction_values, true_y, predicted_y, profit_rate, loss_rate):
     d = {'values':transaction_values, 'true_y':true_y, 'predicted_y':predicted_y}
@@ -797,25 +800,27 @@ class CustomRandomForestClassifier():
         else:
             columns_per_tree = self.columns_per_tree
         all_features = X.columns
-        len_0 = len(Y[Y==0])
-        len_1 = len(Y[Y==1])
-        X_0 = X[Y==0]
-        X_1 = X[Y==1]
         
         for i in range(self.num_trees):
+            if i%10 == 0:
+                print(f"Training tree {i}")
             sel_features = random.sample(list(all_features), columns_per_tree)
-            X_ = X[sel_features].sample(int(X.shape[0]/2), replace= True)
-
+            X_ = X[sel_features].sample(len(X), replace= True)
+            Y_ = Y.loc[X_.index]
+            amounts_ = amounts.loc[X_.index]
+            
+            X_ = X_.reset_index(drop=True)
+            Y_ = Y_.reset_index(drop=True)
+            amounts_ = amounts_.reset_index(drop=True)
+            
             # classifier = ProfitDecisionTreeClassifier(profit_rate, loss_rate, min_samples_split=self.min_samples_split, max_depth=self.max_depth)
             classifier = AdaptiveDecisionTreeClassifier(
                 profit_rate, loss_rate, min_samples_split=self.min_samples_split, max_depth=self.max_depth,
                 min_samples_profit=self.min_samples_profit, information_gain_cut=self.information_gain_cut)
             
-            classifier.fit(X,Y,amounts)
+            classifier.fit(X_,Y_,amounts_)
             self.trees.append(classifier)
             # classifier.print_tree()
-            if i%10 == 0:
-                print(f"Trained {i} trees") 
         
         print("Finished training")
         # self.root = self.build_tree(X,y,indices,amounts, profit_rate, loss_rate)

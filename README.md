@@ -4,6 +4,9 @@ Decision trees from scratch with custom criterion.
 
 This is a custom library with two decision trees algorithm I made in Python to help me better understand the workings of the model.
 
+You can see the post on Medium explaining the workings of the library here:
+https://medium.com/@tadashi-mori/custom-criteria-on-decision-trees-427aae331d75
+
 There are two decision tree classifiers in the library:
 
 * ProfitsDecisionTreeClassifier()
